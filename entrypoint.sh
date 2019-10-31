@@ -29,6 +29,8 @@ git config --global user.name 'Ponylang Main Bot'
 git config --global user.email 'ponylang.main@gmail.com'
 git add -A && git commit -m "$COMMIT_MESSAGE" --allow-empty
 
+echo "ok so far..."
+
 # Now we want to be quiet - don't want to print the GITHUB_TOKEN var.
 set +x
 
@@ -37,5 +39,4 @@ if [[ -z "${GITHUB_TOKEN}" ]]; then
   exit 1
 fi
 
-git remote add origin-token "https://$GITHUB_TOKEN@github.com/$GITHUB_REPOSITORY.git" > /dev/null 2>&1
-git push -u origin-token HEAD > /dev/null 2>&1
+git push --set-upstream origin HEAD
