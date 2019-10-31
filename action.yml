@@ -1,0 +1,5 @@
+name: 'Changelog Bot'
+description: 'Updates a changelog if certain labels are set'
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
