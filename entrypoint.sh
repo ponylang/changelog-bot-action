@@ -1,11 +1,29 @@
 #!/bin/sh -l
 
+# Set up .netrc file with GitHub credentials
+git_setup ( ) {
+  cat <<- EOF > $HOME/.netrc
+        machine github.com
+        login $GITHUB_ACTOR
+        password $GITHUB_TOKEN
+        machine api.github.com
+        login $GITHUB_ACTOR
+        password $GITHUB_TOKEN
+EOF
+
+  chmod 600 $HOME/.netrc
+
+  git config --global user.name 'Ponylang Main Bot'
+  git config --global user.email 'ponylang.main@gmail.com'
+}
 
 PULL_REQUEST_MERGED=$(jq '.pull_request.merged' "${GITHUB_EVENT_PATH}")
 if [[ "true" != "$PULL_REQUEST_MERGED" ]]; then
   echo "Ignoring not-merged pull request"
   exit 0
 fi
+
+git_setup
 
 PULL_REQUEST_TITLE=$(jq -r '.pull_request.title' "${GITHUB_EVENT_PATH}")
 PULL_REQUEST_NUMBER=$(jq -r '.number' "${GITHUB_EVENT_PATH}")
@@ -25,11 +43,8 @@ for CHANGELOG_TYPE in $CHANGELOG_TYPES; do
   perl -i -ne "BEGIN{$/ = undef;} s@(${CHANGELOG_HEADER}\s*)@\1${CHANGELOG_ENTRY}\n@; print" CHANGELOG.md
 done
 
-git config --global user.name 'Ponylang Main Bot'
-git config --global user.email 'ponylang.main@gmail.com'
 git add -A && git commit -m "$COMMIT_MESSAGE" --allow-empty
 
-echo "ok so far..."
 
 # Now we want to be quiet - don't want to print the GITHUB_TOKEN var.
 set +x
