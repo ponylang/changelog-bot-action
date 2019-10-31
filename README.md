@@ -1,8 +1,18 @@
 # Changelog-bot action
 
+Automatically adds a new changelog entry to a Pony project standard format CHANGELOG once a PR is merged. One of 3 labels must be applied to the PR in order for a CHANGELOG entry to be added:
+
+- changelog - added
+- changelog - fixed
+- changelog - changed
+
+See the Pony [changelog-tool](https://github.com/ponylang/changelog-tool) for additional information on standard Pony project formats.
+
 ## Example workflow
 
 ```yml
+name: Changelog Bot
+
 on:
   pull_request:
     types: [closed]
