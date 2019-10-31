@@ -54,4 +54,4 @@ if [[ -z "${GITHUB_TOKEN}" ]]; then
   exit 1
 fi
 
-git push --set-upstream origin HEAD
+git push --set-upstream origin HEAD:master
