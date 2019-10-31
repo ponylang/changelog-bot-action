@@ -24,7 +24,7 @@ if [[ "true" != "$PULL_REQUEST_MERGED" ]]; then
 fi
 
 git_setup
-git checkout master
+#git checkout master
 
 PULL_REQUEST_TITLE=$(jq -r '.pull_request.title' "${GITHUB_EVENT_PATH}")
 PULL_REQUEST_NUMBER=$(jq -r '.number' "${GITHUB_EVENT_PATH}")
@@ -55,3 +55,5 @@ if [[ -z "${GITHUB_TOKEN}" ]]; then
 fi
 
 git push --set-upstream origin HEAD:master
+
+#git push --set-upstream origin HEAD:master
