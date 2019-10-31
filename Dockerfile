@@ -5,6 +5,10 @@ COPY --from=changelog-tool /usr/local/bin/changelog-tool /usr/local/bin/changelo
 
 COPY entrypoint.sh /entrypoint.sh
 
-RUN apk add --update jq
+RUN apk add --update jq \
+  git \
+  perl \
+  awk \
+  grep
 
 ENTRYPOINT ["/entrypoint.sh"]
