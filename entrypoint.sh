@@ -24,6 +24,7 @@ if [[ "true" != "$PULL_REQUEST_MERGED" ]]; then
 fi
 
 git_setup
+git checkout master
 
 PULL_REQUEST_TITLE=$(jq -r '.pull_request.title' "${GITHUB_EVENT_PATH}")
 PULL_REQUEST_NUMBER=$(jq -r '.number' "${GITHUB_EVENT_PATH}")
@@ -44,7 +45,6 @@ for CHANGELOG_TYPE in $CHANGELOG_TYPES; do
 done
 
 git add -A && git commit -m "$COMMIT_MESSAGE" --allow-empty
-
 
 # Now we want to be quiet - don't want to print the GITHUB_TOKEN var.
 set +x
