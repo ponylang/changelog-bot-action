@@ -24,7 +24,6 @@ if [[ "true" != "$PULL_REQUEST_MERGED" ]]; then
 fi
 
 git_setup
-#git checkout master
 
 PULL_REQUEST_TITLE=$(jq -r '.pull_request.title' "${GITHUB_EVENT_PATH}")
 PULL_REQUEST_NUMBER=$(jq -r '.number' "${GITHUB_EVENT_PATH}")
@@ -38,6 +37,10 @@ CHANGELOG_TYPES=$(
   grep -o -E 'added|changed|fixed' |
   awk '{$1=toupper(substr($1,0,1))substr($1,2)}1' # capitalize the first letter
 )
+
+BASE=$(jq -r '.pull_request.base.ref' "${GITHUB_EVENT_PATH}")
+
+echo "base is ${BASE}"
 
 for CHANGELOG_TYPE in $CHANGELOG_TYPES; do
   CHANGELOG_HEADER="### ${CHANGELOG_TYPE}"
@@ -54,6 +57,6 @@ if [[ -z "${GITHUB_TOKEN}" ]]; then
   exit 1
 fi
 
-git push --set-upstream origin HEAD
+git push --set-upstream origin HEAD:${BASE}
 
 #git push --set-upstream origin HEAD:master
