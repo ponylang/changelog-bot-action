@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     name: Update CHANGELOG.md
     steps:
-      - name: Update Changelog if applicable
+      - name: Update Changelog
         uses: ponylang/changelog-bot-action@master
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
