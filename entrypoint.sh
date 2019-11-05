@@ -9,7 +9,7 @@ echo -e "\e[34mRunning changelog-bot for ${SHA} in ${REPO}"
 PR_URL=$(curl -s "https://api.github.com/search/issues?q=is:merged+sha:${SHA}+repo:${REPO}" | jq -r '.items[].pull_request.url')
 
 if [[ -z ${PR_URL} ]]; then
-  echo -e "\e[33mNo PR associated with ${SHA}. Exiting."
+  echo -e "\e[33mNo merged PR associated with ${SHA}. Exiting."
   exit 0
 fi
 
