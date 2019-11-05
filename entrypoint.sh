@@ -5,7 +5,7 @@ SHA=$(jq '.head_commit.id' "${GITHUB_EVENT_PATH}")
 REPO=$(jq '.repository.full_name' "${GITHUB_EVENT_PATH}")
 
 # Search for merged PR featuring our SHA in our REPO
-echo -e "\e[34mRunning changelog bot for ${SHA} in ${REPO}"
+echo -e "\e[34mRunning changelog-bot for ${SHA} in ${REPO}"
 PR_URL=$(curl -s "https://api.github.com/search/issues?q=is:merged+sha:${SHA}+repo:${REPO}" | jq -r '.items[].pull_request.url')
 
 if [[ -z ${PR_URL} ]]; then
