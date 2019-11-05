@@ -13,17 +13,14 @@ See the Pony [changelog-tool](https://github.com/ponylang/changelog-tool) for ad
 ```yml
 name: Changelog Bot
 
-on:
-  pull_request:
-    types: [closed]
+on: push
 
 jobs:
   changelog-bot:
     runs-on: ubuntu-latest
     name: Update CHANGELOG.md
     steps:
-      - uses: actions/checkout@v1
-      - name: Update Changelog if applicable
+      - name: Update Changelog
         uses: ponylang/changelog-bot-action@master
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
