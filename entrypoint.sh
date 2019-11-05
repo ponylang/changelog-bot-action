@@ -2,8 +2,8 @@
 
 cat "${GITHUB_EVENT_PATH}"
 # Get commit SHA from PushEvent
-SHA=$(jq '.payload.head' "${GITHUB_EVENT_PATH}")
-REPO=$(jq '.repo.name' "${GITHUB_EVENT_PATH}")
+SHA=$(jq '.head_commit.id' "${GITHUB_EVENT_PATH}")
+REPO=$(jq '.repository.full_name' "${GITHUB_EVENT_PATH}")
 
 # Search for merged PR featuring our SHA in our REPO
 echo "Running changelog bot for ${SHA} in ${REPO}"
