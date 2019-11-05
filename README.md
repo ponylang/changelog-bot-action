@@ -21,7 +21,7 @@ jobs:
     name: Update CHANGELOG.md
     steps:
       - name: Update Changelog
-        uses: ponylang/changelog-bot-action@master
+        uses: ponylang/changelog-bot-action@0.0.2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 ```
