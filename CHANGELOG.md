@@ -7,6 +7,7 @@ All notable changes to this project will be documented in this file. This projec
 ### Fixed
 
 
+- Allow changelog-bot to work with forked repos ([PR #7](https://github.com/ponylang/changelog-bot-action/pull/7))
 ### Added
 
 
