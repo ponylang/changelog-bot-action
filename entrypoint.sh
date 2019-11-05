@@ -49,9 +49,10 @@ chmod 600 $HOME/.netrc
 git config --global user.name 'Ponylang Main Bot'
 git config --global user.email 'ponylang.main@gmail.com'
 
+# clone repository
+git clone --depth=1 --branch="${BASE_BRANCH}" "git@github.com:${REPO}.git"
+
 # make sure we are up to date
-echo -e "\e[34mCheckout ${BASE_BRANCH}"
-git checkout "${BASE_BRANCH}"
 echo -e "\e[34mPulling latest changes"
 git pull
 
