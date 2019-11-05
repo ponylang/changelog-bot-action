@@ -1,4 +1,4 @@
-#!/bin/sh -l
+#!/bin/bash
 
 set -e
 
@@ -15,7 +15,7 @@ REPO=$(jq '.repository.full_name' "${GITHUB_EVENT_PATH}")
 echo -e "\e[34mRunning changelog-bot for ${SHA} in ${REPO}"
 PR_URL=$(curl -s "https://api.github.com/search/issues?q=is:merged+sha:${SHA}+repo:${REPO}" | jq -r '.items[].pull_request.url')
 
-if [[ -z ${PR_URL} ]]; then
+if [[ -z "${PR_URL}" ]]; then
   echo -e "\e[33mNo merged PR associated with ${SHA}. Exiting."
   exit 0
 fi
@@ -40,25 +40,15 @@ CHANGELOG_TYPES=$(
   awk '{$1=toupper(substr($1,0,1))substr($1,2)}1' # capitalize the first letter
 )
 # git setup
-# Set up .netrc file with GitHub credentials
-echo -e "\e[34mSetting up GitHub credentials"
-cat <<- EOF > $HOME/.netrc
-      machine github.com
-      login $GITHUB_ACTOR
-      password $GITHUB_TOKEN
-      machine api.github.com
-      login $GITHUB_ACTOR
-      password $GITHUB_TOKEN
-EOF
-
-chmod 600 $HOME/.netrc
-
+echo -e "\e[34mSetting up git configuration"
 git config --global user.name 'Ponylang Main Bot'
 git config --global user.email 'ponylang.main@gmail.com'
 
 # create work directory
 echo -e "\e[34mCreating temporary work directory in /tmp"
-WORK_DIR=`mktemp -d -p /tmp` && cd "${WORK_DIR}"
+WORK_DIR=$(mktemp -d -p /tmp)
+pushd "${WORK_DIR}" || exit 1
+
 # clone repository
 echo -e "\e[34mCloning ${BASE_BRANCH} of ${REPO} into ${WORK_DIR}"
 git clone --depth=1 --branch="${BASE_BRANCH}" "https://${GITHUB_ACTOR}:${GITHUB_TOKEN}@github.com/${REPO}"
