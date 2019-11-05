@@ -64,11 +64,19 @@ for CHANGELOG_TYPE in $CHANGELOG_TYPES; do
   perl -i -ne "BEGIN{$/ = undef;} s@(${CHANGELOG_HEADER}\s*)@\1${CHANGELOG_ENTRY}\n@; print" CHANGELOG.md
 done
 
+# Checking to see if we need to commit
+DIRTY=$(git status -s)
+
+if [[ ${DIRTY} == "" ]]; then
+  echo -e "\e[33mNo changes to CHANGELOG.md. Exiting."
+  exit 0
+fi
+
 # Add CHANGELOG changes and commit
-echo -e "\e[34mCommiting CHANGELOG.md changes (if any)"
+echo -e "\e[34mCommiting CHANGELOG.md changes"
 git add CHANGELOG.md
 git commit -m "$COMMIT_MESSAGE"
 
 # push those changes son
-echo -e "\e[34mPushing changes (if any)"
+echo -e "\e[34mPushing changes"
 git push
