@@ -50,7 +50,8 @@ git config --global user.name 'Ponylang Main Bot'
 git config --global user.email 'ponylang.main@gmail.com'
 
 # clone repository
-git clone --depth=1 --branch="${BASE_BRANCH}" "git@github.com:${REPO}.git"
+git clone --depth=1 --branch="${BASE_BRANCH}" "git@github.com:${REPO}.git" ./cloned_repo
+cd cloned_repo
 
 # make sure we are up to date
 echo -e "\e[34mPulling latest changes"
