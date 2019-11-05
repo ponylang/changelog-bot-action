@@ -2,6 +2,11 @@
 
 set -e
 
+if [[ -z "${GITHUB_TOKEN}" ]]; then
+  echo -e "\e[31mGITHUB_TOKEN needs to be set in env. Exiting."
+  exit 1
+fi
+
 # Get commit SHA from PushEvent
 SHA=$(jq '.head_commit.id' "${GITHUB_EVENT_PATH}")
 REPO=$(jq '.repository.full_name' "${GITHUB_EVENT_PATH}")
