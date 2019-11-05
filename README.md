@@ -13,9 +13,7 @@ See the Pony [changelog-tool](https://github.com/ponylang/changelog-tool) for ad
 ```yml
 name: Changelog Bot
 
-on:
-  pull_request:
-    types: [closed]
+on: push
 
 jobs:
   changelog-bot:
