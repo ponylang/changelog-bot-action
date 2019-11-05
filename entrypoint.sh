@@ -49,9 +49,12 @@ chmod 600 $HOME/.netrc
 git config --global user.name 'Ponylang Main Bot'
 git config --global user.email 'ponylang.main@gmail.com'
 
+# create work directory
+echo -e "\e[34mCreating temporary work directory in /tmp"
+WORK_DIR=`mktemp -d -p /tmp` && cd "${WORK_DIR}"
 # clone repository
-git clone --depth=1 --branch="${BASE_BRANCH}" "git@github.com:${REPO}.git" ./cloned_repo
-cd cloned_repo
+echo -e "\e[34mClong ${BASE_BRANCH} of ${REPO} into ${WORK_DIR}"
+git clone --depth=1 --branch="${BASE_BRANCH}" "git@github.com:${REPO}.git" .
 
 # make sure we are up to date
 echo -e "\e[34mPulling latest changes"
