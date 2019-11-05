@@ -56,7 +56,7 @@ echo -e "\e[34mCreating temporary work directory in /tmp"
 WORK_DIR=`mktemp -d -p /tmp` && cd "${WORK_DIR}"
 # clone repository
 echo -e "\e[34mCloning ${BASE_BRANCH} of ${REPO} into ${WORK_DIR}"
-git clone --depth=1 --branch="${BASE_BRANCH}" "git@github.com:${REPO}.git" .
+git clone --depth=1 --branch="${BASE_BRANCH}" "https://${GITHUB_ACTOR}:${GITHUB_TOKEN}@github.com/${REPO}"
 
 # make sure we are up to date
 echo -e "\e[34mPulling latest changes"
@@ -73,14 +73,6 @@ echo -e "\e[34mCommiting CHANGELOG.md changes (if any)"
 git add CHANGELOG.md
 git commit -m "$COMMIT_MESSAGE"
 
-echo -e "\e[34mPushing changes (if any)"
-# Now we want to be quiet - don't want to print the GITHUB_TOKEN var.
-set +x
-
-if [[ -z "${GITHUB_TOKEN}" ]]; then
-  echo "GITHUB_TOKEN environment variable is missing - add it as a secret!"
-  exit 1
-fi
-
 # push those changes son
+echo -e "\e[34mPushing changes (if any)"
 git push

@@ -9,7 +9,6 @@ RUN apk add --update jq \
   git \
   perl \
   grep \
-  curl \
-  openssh
+  curl
 
 ENTRYPOINT ["/entrypoint.sh"]
