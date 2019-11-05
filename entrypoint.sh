@@ -53,7 +53,7 @@ git config --global user.email 'ponylang.main@gmail.com'
 echo -e "\e[34mCreating temporary work directory in /tmp"
 WORK_DIR=`mktemp -d -p /tmp` && cd "${WORK_DIR}"
 # clone repository
-echo -e "\e[34mClong ${BASE_BRANCH} of ${REPO} into ${WORK_DIR}"
+echo -e "\e[34mCloning ${BASE_BRANCH} of ${REPO} into ${WORK_DIR}"
 git clone --depth=1 --branch="${BASE_BRANCH}" "git@github.com:${REPO}.git" .
 
 # make sure we are up to date
