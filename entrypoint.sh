@@ -1,5 +1,6 @@
 #!/bin/sh -l
 
+cat "${GITHUB_EVENT_PATH}"
 # Get commit SHA from PushEvent
 SHA=$(jq '.payload.head' "${GITHUB_EVENT_PATH}")
 REPO=$(jq '.repo.name' "${GITHUB_EVENT_PATH}")
