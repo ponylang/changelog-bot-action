@@ -29,8 +29,9 @@ echo -e "\e[34mExtracting information from PR"
 BASE_BRANCH=$(jq -r '.base.ref' pr.json)
 PULL_REQUEST_TITLE=$(jq -r '.title' pr.json)
 PULL_REQUEST_NUMBER=$(jq -r '.number' pr.json)
+PR_HTML_URL=$(jq -r '.html_url' pr.json)
 COMMIT_MESSAGE="Update CHANGELOG for PR #${PULL_REQUEST_NUMBER} [skip ci]"
-CHANGELOG_ENTRY="- ${PULL_REQUEST_TITLE} ([PR #${PULL_REQUEST_NUMBER}](${PR_URL}))"
+CHANGELOG_ENTRY="- ${PULL_REQUEST_TITLE} ([PR #${PULL_REQUEST_NUMBER}](${PR_HTML_URL}))"
 
 CHANGELOG_TYPES=$(
   cat pr.json |
