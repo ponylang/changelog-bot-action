@@ -31,14 +31,13 @@ PULL_REQUEST_TITLE=$(jq -r '.title' pr.json)
 PULL_REQUEST_NUMBER=$(jq -r '.number' pr.json)
 PR_HTML_URL=$(jq -r '.html_url' pr.json)
 COMMIT_MESSAGE="Update CHANGELOG for PR #${PULL_REQUEST_NUMBER} [skip ci]"
-CHANGELOG_ENTRY="- ${PULL_REQUEST_TITLE} ([PR #${PULL_REQUEST_NUMBER}](${PR_HTML_URL}))"
+CHANGELOG_ENTRY="${PULL_REQUEST_TITLE} ([PR #${PULL_REQUEST_NUMBER}](${PR_HTML_URL}))"
 
 CHANGELOG_TYPES=$(
   cat pr.json |
   jq -r '.labels | map(.name) | join("'"$IFS"'")' |
   grep 'changelog - ' |
-  grep -o -E 'added|changed|fixed' |
-  awk '{$1=toupper(substr($1,0,1))substr($1,2)}1' # capitalize the first letter
+  grep -o -E 'added|changed|fixed'
 )
 # git setup
 echo -e "\e[34mSetting up git configuration"
@@ -60,8 +59,9 @@ git pull
 
 echo -e "\e[34mUpdating CHANGELOG.md"
 for CHANGELOG_TYPE in $CHANGELOG_TYPES; do
-  CHANGELOG_HEADER="### ${CHANGELOG_TYPE}"
-  perl -i -ne "BEGIN{$/ = undef;} s@(${CHANGELOG_HEADER}\s*)@\1${CHANGELOG_ENTRY}\n@; print" CHANGELOG.md
+  CMD="changelog-tool add ${CHANGELOG_TYPE} \"$CHANGELOG_ENTRY\" -e"
+  echo "cmd is $CMD"
+  eval $CMD
 done
 
 # Checking to see if we need to commit
