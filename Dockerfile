@@ -8,7 +8,6 @@ COPY entrypoint.sh /entrypoint.sh
 RUN apk add --update bash \
   jq \
   git \
-  perl \
   grep \
   curl
 
