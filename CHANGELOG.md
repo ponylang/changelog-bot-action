@@ -6,6 +6,7 @@ All notable changes to this project will be documented in this file. This projec
 
 ### Fixed
 
+- Correctly work when there are no labels ([PR #11](https://github.com/ponylang/changelog-bot-action/pull/11))
 
 ### Added
 
