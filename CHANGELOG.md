@@ -13,6 +13,7 @@ All notable changes to this project will be documented in this file. This projec
 ### Changed
 
 
+- Switch to using changelog-tool to update CHANGELOG ([PR #8](https://github.com/ponylang/changelog-bot-action/pull/8))
 ## [0.0.2] - 2019-11-05
 
 ### Fixed
