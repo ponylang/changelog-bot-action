@@ -37,7 +37,8 @@ CHANGELOG_TYPES=$(
   cat pr.json |
   jq -r '.labels | map(.name) | join("'"$IFS"'")' |
   grep 'changelog - ' |
-  grep -o -E 'added|changed|fixed'
+  grep -o -E 'added|changed|fixed' ||
+  true
 )
 # git setup
 echo -e "\e[34mSetting up git configuration"
