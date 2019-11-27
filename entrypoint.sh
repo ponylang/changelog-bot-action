@@ -60,10 +60,7 @@ git pull
 
 echo -e "\e[34mUpdating CHANGELOG.md"
 for CHANGELOG_TYPE in $CHANGELOG_TYPES; do
-  #CMD="changelog-tool add ${CHANGELOG_TYPE} \'$CHANGELOG_ENTRY\' -e"
-  #echo "cmd is $CMD"
-  #eval $CMD
-  changelog-tool add ${CHANGELOG_TYPE} \"${CHANGELOG_ENTRY}\" -e
+  changelog-tool add ${CHANGELOG_TYPE} "${CHANGELOG_ENTRY}" -e
 done
 
 # Checking to see if we need to commit
