@@ -79,8 +79,8 @@ echo -e "\e[34mUpdating CHANGELOG.md for release\e[0m"
 changelog-tool release "${VERSION}" -e
 
 # commit CHANGELOG and VERSION updates
-echo -e "\e[34mCommiting VERSION and CHANGELOG.md changes\e[0m"
-git add CHANGELOG.md VERSION
+echo -e "\e[34mCommiting CHANGELOG.md changes\e[0m"
+git add CHANGELOG.md
 git commit -m "${VERSION} release"
 
 # tag release
