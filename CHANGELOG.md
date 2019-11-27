@@ -6,6 +6,7 @@ All notable changes to this project will be documented in this file. This projec
 
 ### Fixed
 
+- $ handling in messages ([PR #12](https://github.com/ponylang/changelog-bot-action/pull/12))
 
 ### Added
 
