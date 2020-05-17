@@ -25,6 +25,9 @@ jobs:
     steps:
       - name: Update Changelog
         uses: ponylang/changelog-bot-action@0.1.2
+        with:
+          git_user_name: "Ponylang Main Bot"
+          git_user_email: "ponylang.main@gmail.com"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 ```
