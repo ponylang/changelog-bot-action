@@ -42,8 +42,8 @@ CHANGELOG_TYPES=$(
 )
 # git setup
 echo -e "\e[34mSetting up git configuration"
-git config --global user.name 'Ponylang Main Bot'
-git config --global user.email 'ponylang.main@gmail.com'
+git config --global user.name "${INPUT_GIT_USER_NAME}"
+git config --global user.email "${INPUT_GIT_USER_EMAIL}"
 
 # create work directory
 echo -e "\e[34mCreating temporary work directory in /tmp"
