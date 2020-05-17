@@ -12,6 +12,7 @@ All notable changes to this project will be documented in this file. This projec
 
 ### Changed
 
+- Allow for the setting of git metadata associated with commits ([PR #17](https://github.com/ponylang/changelog-bot-action/pull/17))
 
 ## [0.1.2] - 2019-11-27
 
