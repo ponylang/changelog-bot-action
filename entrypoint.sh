@@ -34,8 +34,7 @@ COMMIT_MESSAGE="Update CHANGELOG for PR #${PULL_REQUEST_NUMBER} [skip ci]"
 CHANGELOG_ENTRY="${PULL_REQUEST_TITLE} ([PR #${PULL_REQUEST_NUMBER}](${PR_HTML_URL}))"
 
 CHANGELOG_TYPES=$(
-  cat pr.json |
-  jq -r '.labels | map(.name) | join("'"$IFS"'")' |
+  jq -r '.labels | map(.name) | join("'"$IFS"'")' pr.json |
   grep 'changelog - ' |
   grep -o -E 'added|changed|fixed' ||
   true
@@ -60,7 +59,7 @@ git pull
 
 echo -e "\e[34mUpdating CHANGELOG.md"
 for CHANGELOG_TYPE in $CHANGELOG_TYPES; do
-  changelog-tool add ${CHANGELOG_TYPE} "${CHANGELOG_ENTRY}" -e
+  changelog-tool add "${CHANGELOG_TYPE}" "${CHANGELOG_ENTRY}" -e
 done
 
 # Checking to see if we need to commit
