@@ -15,6 +15,10 @@ name: Changelog Bot
 
 on:
   push:
+    branches:
+      - '**'
+    tags-ignore:
+      - '**'
     paths-ignore:
       - CHANGELOG.md
 
