@@ -9,6 +9,7 @@ All notable changes to this project will be documented in this file. This projec
 
 ### Added
 
+- Retry push on failure ([PR #24](https://github.com/ponylang/changelog-bot-action/pull/24))
 
 ### Changed
 
