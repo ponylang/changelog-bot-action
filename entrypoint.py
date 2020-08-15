@@ -44,11 +44,8 @@ pull_request = repo.get_pull(pr_id)
 pr_changelog_labels = []
 for l in pull_request.labels:
   print(INFO + "PR had label: " + l.name + ENDC)
-  try:
-    changelog_labels.index(l.name)
+  if l.name in changelog_labels:
     pr_changelog_labels.append(l.name)
-  except:
-    None
 
 if not pr_changelog_labels:
   print(NOTICE + "No changelog labels associated with PR #" + str(pr_id) \
