@@ -5,7 +5,7 @@ COPY --from=changelog-tool /usr/local/bin/changelog-tool /usr/local/bin/changelo
 
 COPY entrypoint.py /entrypoint.py
 
-RUN apk add --update \
+RUN apk add --update --no-cache \
   git \
   py3-pip
 
