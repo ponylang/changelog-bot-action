@@ -76,6 +76,7 @@ git = git.Repo.clone_from(clone_from, '.', multi_options=clone_options).git
 print(INFO + "Setting up git configuration." + ENDC)
 git.config('--global', 'user.name', os.environ['INPUT_GIT_USER_NAME'])
 git.config('--global', 'user.email', os.environ['INPUT_GIT_USER_EMAIL'])
+git.config('--global', 'branch.autosetuprebase', 'always')
 
 # construct changelog_entry
 pull_request_title = pull_request.title
