@@ -12,6 +12,7 @@ All notable changes to this project will be documented in this file. This projec
 
 ### Changed
 
+- Turn on branch.autorebasesetup when pushing/pulling ([PR #29](https://github.com/ponylang/changelog-bot-action/pull/29))
 
 ## [0.2.2] - 2020-08-15
 
