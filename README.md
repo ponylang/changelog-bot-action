@@ -28,7 +28,7 @@ jobs:
     name: Update CHANGELOG.md
     steps:
       - name: Update Changelog
-        uses: ponylang/changelog-bot-action@0.3.0
+        uses: ponylang/changelog-bot-action@0.3.1
         with:
           git_user_name: "Ponylang Main Bot"
           git_user_email: "ponylang.main@gmail.com"
