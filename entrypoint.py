@@ -113,7 +113,7 @@ while True:
             print(NOTICE
                   + "Failed to push. Going to pull and try again."
                   + ENDC)
-            git.pull()
+            git.pull('--rebase')
         else:
             print(ERROR + "Failed to push again. Giving up." + ENDC)
             raise
