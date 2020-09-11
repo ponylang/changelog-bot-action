@@ -6,6 +6,7 @@ All notable changes to this project will be documented in this file. This projec
 
 ### Fixed
 
+- Improve logging around multiple push attempts ([PR #35](https://github.com/ponylang/changelog-bot-action/pull/35))
 
 ### Added
 
