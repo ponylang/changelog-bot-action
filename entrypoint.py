@@ -101,10 +101,10 @@ print(INFO + "Adding git changes." + ENDC)
 git.add('CHANGELOG.md')
 git.commit('-m', "Update CHANGELOG for PR #" + str(pr_id))
 
-print(INFO + "Pushing changes." + ENDC)
 push_failures = 0
 while True:
     try:
+        print(INFO + "Pushing changes." + ENDC)
         git.push()
         break
     except GitCommandError:
