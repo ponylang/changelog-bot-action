@@ -7,6 +7,7 @@ All notable changes to this project will be documented in this file. This projec
 ### Fixed
 
 - Improve logging around multiple push attempts ([PR #35](https://github.com/ponylang/changelog-bot-action/pull/35))
+- Fix build error caused by PyGitHub version dependencies changing ([PR #36](https://github.com/ponylang/changelog-bot-action/pull/36))
 
 ### Added
 
