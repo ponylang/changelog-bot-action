@@ -28,7 +28,9 @@ if 'GITHUB_TOKEN' not in os.environ:
 github = Github(os.environ['GITHUB_TOKEN'])
 
 # get json data for our event
-event_data = json.load(open(os.environ['GITHUB_EVENT_PATH'], 'r'))
+event_data = ""
+with open(os.environ['GITHUB_EVENT_PATH'], 'r', encoding='utf-8') as f:
+    event_data = json.load(f)
 
 # grab info needed to find PR
 sha = event_data['head_commit']['id']
