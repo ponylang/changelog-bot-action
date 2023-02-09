@@ -1,12 +1,12 @@
-name: 'Changelog Bot'
-description: 'Updates a changelog if certain labels are set'
-runs:
-  using: 'docker'
-  image: 'Dockerfile'
+description: Updates a changelog if certain labels are set
 inputs:
-  git_user_name:
-    description: 'Name to associate with commits'
-    required: true
   git_user_email:
-    description: 'Email to associate with commits'
+    description: Email to associate with commits
     required: true
+  git_user_name:
+    description: Name to associate with commits
+    required: true
+name: Changelog Bot
+runs:
+  image: docker://ponylang/changelog-bot-action:0.3.5
+  using: docker
