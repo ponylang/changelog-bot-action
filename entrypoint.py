@@ -2,6 +2,7 @@
 # pylint: disable=C0103
 # pylint: disable=C0114
 
+import time
 import json
 import os
 import re
@@ -10,6 +11,7 @@ import sys
 import git
 from git.exc import GitCommandError
 from github import Github
+from github.GithubException import RateLimitExceededException
 
 CHANGELOG_LABELS = ['changelog - added',
                     'changelog - changed',
@@ -40,14 +42,31 @@ repo_name = event_data['repository']['full_name']
 print(INFO + "Finding PR associated with " + sha + " in " + repo_name + ENDC)
 query = "q=is:merged+sha:" + sha + "+repo:" + repo_name
 print(INFO + "Query: " + query + ENDC)
-results = github.search_issues(query='is:merged', sha=sha, repo=repo_name)
+pr_id = 0
+search_failures = 0
+while True:
+    try:
+        results = github.search_issues(query='is:merged', sha=sha,
+                                       repo=repo_name)
 
-if results.totalCount == 0:
-    print(NOTICE + "No merged PR associated with " + sha + ". Exiting.")
-    sys.exit(0)
+        if results.totalCount == 0:
+            print(NOTICE + "No merged PR associated with " + sha + ". Exiting.")
+            sys.exit(0)
 
-pr_id = results[0].number
-print(INFO + "PR found " + str(pr_id) + ENDC)
+        pr_id = results[0].number
+        print(INFO + "PR found " + str(pr_id) + ENDC)
+        break
+    except RateLimitExceededException:
+        search_failures += 1
+        if search_failures <= 5:
+            print(NOTICE
+                  + "Search failed due to rate limit exceeded. "
+                  + "Sleeping and trying again."
+                  + ENDC)
+            time.sleep(30)
+        else:
+            print(ERROR + "Search failed again. Giving up." + ENDC)
+            raise
 
 repo = github.get_repo(repo_name)
 pull_request = repo.get_pull(pr_id)
