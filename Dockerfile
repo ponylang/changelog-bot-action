@@ -1,4 +1,4 @@
-FROM ponylang/changelog-tool:release AS changelog-tool
+FROM ghcr.io/ponylang/changelog-tool:release AS changelog-tool
 FROM alpine:3.16
 
 COPY --from=changelog-tool /usr/local/bin/changelog-tool /usr/local/bin/changelog-tool
