@@ -6,6 +6,7 @@ All notable changes to this project will be documented in this file. This projec
 
 ### Fixed
 
+- Handle Additional GitHub secondary rate limit failure ([PR #68](https://github.com/ponylang/changelog-bot-action/pull/68))
 
 ### Added
 
