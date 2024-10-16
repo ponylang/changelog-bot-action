@@ -13,7 +13,7 @@ All notable changes to this project will be documented in this file. This projec
 
 ### Changed
 
-- Alpine 3 18 ([PR #57](https://github.com/ponylang/changelog-bot-action/pull/57))
+- Alpine 3.18 ([PR #57](https://github.com/ponylang/changelog-bot-action/pull/57))
 
 ## [0.3.5] - 2023-02-09
 
