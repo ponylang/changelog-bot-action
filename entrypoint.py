@@ -12,6 +12,7 @@ import git
 from git.exc import GitCommandError
 from github import Github
 from github.GithubException import RateLimitExceededException
+from github.GithubException import GithubException
 
 CHANGELOG_LABELS = ['changelog - added',
                     'changelog - changed',
@@ -66,6 +67,20 @@ while True:
             time.sleep(30)
         else:
             print(ERROR + "Search failed again. Giving up." + ENDC)
+            raise
+    except GithubException as e:
+        if "You have exceeded a secondary rate limit" in e.data['message']:
+            search_failures += 1
+            if search_failures <= 5:
+                print(NOTICE
+                    + "Search failed due to secondary rate limit exceeded. "
+                    + "Sleeping and trying again."
+                    + ENDC)
+                time.sleep(30)
+            else:
+                print(ERROR + "Search failed again. Giving up." + ENDC)
+                raise
+        else:
             raise
 
 repo = github.get_repo(repo_name)
