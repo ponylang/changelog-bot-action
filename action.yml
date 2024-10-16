@@ -8,5 +8,5 @@ inputs:
     required: true
 name: Changelog Bot
 runs:
-  image: Dockerfile
+  image: docker://ghcr.io/ponylang/changelog-bot-action:0.3.6
   using: docker
