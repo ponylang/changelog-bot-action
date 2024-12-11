@@ -12,6 +12,7 @@ All notable changes to this project will be documented in this file. This projec
 
 ### Changed
 
+- Use Alpine 3.20 as our base image ([PR #69](https://github.com/ponylang/changelog-bot-action/pull/69))
 
 ## [0.3.6] - 2024-10-16
 
