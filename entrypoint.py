@@ -45,6 +45,7 @@ query = "q=is:merged+sha:" + sha + "+repo:" + repo_name
 print(INFO + "Query: " + query + ENDC)
 pr_id = 0
 search_failures = 0
+not_found_retries = 0
 while True:
     try:
         results = github.search_issues(query='is:merged', sha=sha,
@@ -59,8 +60,19 @@ while True:
             print(INFO + "PR found " + str(pr_id) + ENDC)
             break
         except IndexError:
-            print(NOTICE + "No merged PR associated with " + sha + ". Exiting." + ENDC)
-            sys.exit(0)
+            not_found_retries += 1
+            if not_found_retries <= 5:
+                print(NOTICE
+                      + "No merged PR associated with " + sha + " yet. "
+                      + "Sleeping and trying again."
+                      + ENDC)
+                time.sleep(10)
+            else:
+                print(NOTICE
+                      + "No merged PR associated with " + sha
+                      + ". Exiting."
+                      + ENDC)
+                sys.exit(0)
     except RateLimitExceededException:
         search_failures += 1
         if search_failures <= 5:
