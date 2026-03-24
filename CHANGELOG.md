@@ -6,6 +6,7 @@ All notable changes to this project will be documented in this file. This projec
 
 ### Fixed
 
+- Retry when GitHub API doesn't immediately return PR for a commit ([PR #76](https://github.com/ponylang/changelog-bot-action/pull/76))
 
 ### Added
 
