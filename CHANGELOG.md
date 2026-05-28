@@ -2,17 +2,11 @@
 
 All notable changes to this project will be documented in this file. This project adheres to [Semantic Versioning](http://semver.org/) and [Keep a CHANGELOG](http://keepachangelog.com/).
 
-## [unreleased] - unreleased
+## [0.3.9] - 2026-05-28
 
 ### Fixed
 
 - Fix intermittent crash when looking up the PR for a commit ([PR #83](https://github.com/ponylang/changelog-bot-action/pull/83))
-
-### Added
-
-
-### Changed
-
 
 ## [0.3.8] - 2026-03-24
 
