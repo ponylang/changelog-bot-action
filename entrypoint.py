@@ -2,6 +2,7 @@
 # pylint: disable=C0103
 # pylint: disable=C0114
 
+import random
 import time
 import json
 import os
@@ -13,6 +14,7 @@ from git.exc import GitCommandError
 from github import Github
 from github.GithubException import RateLimitExceededException
 from github.GithubException import GithubException
+import requests.exceptions
 
 CHANGELOG_LABELS = ['changelog - added',
                     'changelog - changed',
@@ -39,6 +41,11 @@ with open(os.environ['GITHUB_EVENT_PATH'], 'r', encoding='utf-8') as f:
 sha = event_data['head_commit']['id']
 repo_name = event_data['repository']['full_name']
 
+# stagger concurrent runs to avoid rate limit collisions
+jitter = random.uniform(0, 60)
+print(INFO + "Waiting " + str(int(jitter)) + "s before starting." + ENDC)
+time.sleep(jitter)
+
 # find associated PR (if any)
 print(INFO + "Finding PR associated with " + sha + " in " + repo_name + ENDC)
 query = "q=is:merged+sha:" + sha + "+repo:" + repo_name
@@ -62,11 +69,12 @@ while True:
         except IndexError:
             not_found_retries += 1
             if not_found_retries <= 5:
+                delay = 10 * (2 ** (not_found_retries - 1))
                 print(NOTICE
                       + "No merged PR associated with " + sha + " yet. "
-                      + "Sleeping and trying again."
+                      + "Sleeping " + str(delay) + "s and trying again."
                       + ENDC)
-                time.sleep(10)
+                time.sleep(delay)
             else:
                 print(NOTICE
                       + "No merged PR associated with " + sha
@@ -76,11 +84,12 @@ while True:
     except RateLimitExceededException:
         search_failures += 1
         if search_failures <= 5:
+            delay = 60 * (2 ** (search_failures - 1))
             print(NOTICE
                   + "Search failed due to rate limit exceeded. "
-                  + "Sleeping and trying again."
+                  + "Sleeping " + str(delay) + "s and trying again."
                   + ENDC)
-            time.sleep(30)
+            time.sleep(delay)
         else:
             print(ERROR + "Search failed again. Giving up." + ENDC)
             raise
@@ -88,15 +97,28 @@ while True:
         if "You have exceeded a secondary rate limit" in e.data['message']:
             search_failures += 1
             if search_failures <= 5:
+                delay = 60 * (2 ** (search_failures - 1))
                 print(NOTICE
                     + "Search failed due to secondary rate limit exceeded. "
-                    + "Sleeping and trying again."
+                    + "Sleeping " + str(delay) + "s and trying again."
                     + ENDC)
-                time.sleep(30)
+                time.sleep(delay)
             else:
                 print(ERROR + "Search failed again. Giving up." + ENDC)
                 raise
         else:
+            raise
+    except requests.exceptions.ConnectionError:
+        search_failures += 1
+        if search_failures <= 5:
+            delay = 60 * (2 ** (search_failures - 1))
+            print(NOTICE
+                  + "Search failed due to connection error. "
+                  + "Sleeping " + str(delay) + "s and trying again."
+                  + ENDC)
+            time.sleep(delay)
+        else:
+            print(ERROR + "Search failed again. Giving up." + ENDC)
             raise
 
 repo = github.get_repo(repo_name)
@@ -163,9 +185,12 @@ while True:
     except GitCommandError:
         push_failures += 1
         if push_failures <= 5:
+            delay = 10 * (2 ** (push_failures - 1))
             print(NOTICE
-                  + "Failed to push. Going to pull and try again."
+                  + "Failed to push. Sleeping " + str(delay)
+                  + "s, then pulling and trying again."
                   + ENDC)
+            time.sleep(delay)
             git.pull(rebase=True)
         else:
             print(ERROR + "Failed to push again. Giving up." + ENDC)
