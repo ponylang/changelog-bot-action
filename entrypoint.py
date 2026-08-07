@@ -25,6 +25,45 @@ ERROR = '\033[31m'
 INFO = '\033[34m'
 NOTICE = '\033[33m'
 
+def github_api_call(fn, description):
+    """Call fn() with retry and exponential backoff on rate limits and connection errors."""
+    api_failures = 0
+    while True:
+        try:
+            return fn()
+        except (RateLimitExceededException,
+                requests.exceptions.ConnectionError):
+            api_failures += 1
+            if api_failures <= 5:
+                backoff = 60 * (2 ** (api_failures - 1))
+                print(NOTICE
+                      + description + " failed. "
+                      + "Sleeping " + str(backoff) + "s and trying again."
+                      + ENDC)
+                time.sleep(backoff)
+            else:
+                print(ERROR + description + " failed again. Giving up." + ENDC)
+                raise
+        except GithubException as e:
+            err_msg = e.data.get('message', '') if isinstance(e.data, dict) else ''
+            if "You have exceeded a secondary rate limit" in err_msg:
+                api_failures += 1
+                if api_failures <= 5:
+                    backoff = 60 * (2 ** (api_failures - 1))
+                    print(NOTICE
+                          + description + " failed due to secondary rate limit. "
+                          + "Sleeping " + str(backoff) + "s and trying again."
+                          + ENDC)
+                    time.sleep(backoff)
+                else:
+                    print(ERROR
+                          + description + " failed again. Giving up."
+                          + ENDC)
+                    raise
+            else:
+                raise
+
+
 if 'GITHUB_TOKEN' not in os.environ:
     print(ERROR + "GITHUB_TOKEN needs to be set in env. Exiting." + ENDC)
     sys.exit(1)
@@ -122,8 +161,9 @@ while True:
             print(ERROR + "Search failed again. Giving up." + ENDC)
             raise
 
-repo = github.get_repo(repo_name)
-pull_request = repo.get_pull(pr_id)
+repo = github_api_call(lambda: github.get_repo(repo_name), "Get repo")
+pull_request = github_api_call(lambda: repo.get_pull(pr_id),
+                               "Get pull request")
 
 # check to make sure that the PR had at least one changelog label
 pr_changelog_labels = []
