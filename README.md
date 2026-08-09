@@ -16,7 +16,7 @@ name: Changelog Bot
 on:
   push:
     branches:
-      - '**'
+      - main
     tags-ignore:
       - '**'
     paths-ignore:
