@@ -12,6 +12,7 @@ All notable changes to this project will be documented in this file. This projec
 
 ### Changed
 
+- Remove random startup jitter ([PR #88](https://github.com/ponylang/changelog-bot-action/pull/88))
 
 ## [0.3.10] - 2026-08-07
 
