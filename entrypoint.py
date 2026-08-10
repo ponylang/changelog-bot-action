@@ -101,8 +101,8 @@ while True:
             break
         except IndexError:
             not_found_retries += 1
-            if not_found_retries <= 5:
-                delay = 10 * (2 ** (not_found_retries - 1))
+            if not_found_retries <= 2:
+                delay = 15 * not_found_retries
                 print(NOTICE
                       + "No merged PR associated with " + sha + " yet. "
                       + "Sleeping " + str(delay) + "s and trying again."
